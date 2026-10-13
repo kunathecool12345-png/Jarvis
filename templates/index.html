@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#061019">
+  <title>Jarvis | Personal AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+  <div class="dashboard">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Jarvis dashboard home">
+        <span class="brand-mark">J</span>
+        <span><strong>JARVIS</strong><small>PERSONAL AI SYSTEM</small></span>
+      </a>
+      <div class="connection"><span class="connection-dot"></span><span id="connection-label">SYSTEM ONLINE</span></div>
+      <button id="voice-toggle" class="voice-toggle" type="button" aria-pressed="true">
+        <span class="toggle-light"></span><span>VOICE ON</span>
+      </button>
+    </header>
+
+    <main class="main-layout">
+      <aside class="intel-panel" aria-label="India weather and latest headlines">
+        <section class="intel-card weather-card" aria-labelledby="weather-heading">
+          <div class="intel-heading">
+            <div><span class="section-kicker">LIVE CONDITIONS</span><h2 id="weather-heading">Weather</h2></div>
+            <button id="refresh-info" class="refresh-button" type="button" aria-label="Refresh weather and headlines">↻</button>
+          </div>
+          <p id="weather-location" class="intel-location">{{ weather_city }}</p>
+          <div id="weather-content" class="weather-content" aria-live="polite">
+            <span class="loading-indicator"></span><span>Loading current weather…</span>
+          </div>
+          <p id="weather-updated" class="intel-updated">Fetching live conditions</p>
+        </section>
+        <section class="intel-card news-card" aria-labelledby="news-heading">
+          <div class="intel-heading">
+            <div><span class="section-kicker">INDIA · TOP STORIES</span><h2 id="news-heading">Latest headlines</h2></div>
+            <span id="news-count" class="news-count">LIVE</span>
+          </div>
+          <div id="news-content" class="news-content" aria-live="polite">
+            <p class="intel-message">Loading the latest headlines…</p>
+          </div>
+          <p id="news-updated" class="intel-updated">NewsAPI · India</p>
+        </section>
+      </aside>
+
+      <section class="hero" aria-label="Jarvis visualizer">
+        <div class="eyebrow"><span class="tiny-dot"></span> PERSONAL ASSISTANT <span class="divider">/</span> READY</div>
+        <div id="orb-stage" class="orb-stage state-idle" aria-live="polite">
+          <div class="orb-halo"></div>
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="orbit orbit-three"></div>
+          <div class="tick-ring"></div>
+          <div class="orb-core">
+            <div class="orb-glow"></div>
+            <div class="orb-wave wave-a"></div>
+            <div class="orb-wave wave-b"></div>
+            <div class="orb-wave wave-c"></div>
+            <div class="orb-symbol"><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <div class="assistant-state">
+          <span class="state-label">JARVIS IS</span>
+          <h1 id="state-title">Standing by</h1>
+          <p id="state-caption">Listening for “Jarvis”.</p>
+        </div>
+        <div class="visualizer" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </section>
+
+      <aside class="console" aria-label="Assistant controls and conversation">
+        <div class="console-heading">
+          <div><span class="section-kicker">INTERACTION</span><h2>Command console</h2></div>
+          <span class="live-badge"><span></span> LIVE</span>
+        </div>
+        <div id="transcript" class="transcript" aria-live="polite">
+          <div class="welcome-card">
+            <span class="message-icon">✳</span>
+            <p>Good evening. I'm Jarvis. Ask me anything or give me a command.</p>
+            <small>SYSTEM · JUST NOW</small>
+          </div>
+        </div>
+        <form id="command-form" class="command-form">
+          <label class="sr-only" for="command-input">Type a message for Jarvis</label>
+          <input id="command-input" type="text" maxlength="2000" autocomplete="off" placeholder="Message Jarvis..." required>
+          <button id="send-button" class="send-button" type="submit" aria-label="Send message"><span>↑</span></button>
+        </form>
+        <div class="control-row">
+          <div id="wake-indicator" class="wake-indicator">
+            <span class="mic-glyph"></span><span id="mic-label">SAY “JARVIS”</span>
+          </div>
+          <span class="shortcut-hint">WAKE WORD ACTIVE</span>
+        </div>
+        <div class="quick-actions">
+          <span class="section-kicker">QUICK COMMANDS</span>
+          <div class="chips">
+            <button type="button" data-command="weather">Current weather</button>
+            <button type="button" data-command="open google">Open Google</button>
+            <button type="button" data-command="play lo-fi beats">Play music</button>
+            <button type="button" data-command="news">Top headlines</button>
+          </div>
+        </div>
+        <div class="console-footer"><span>MIC <b id="mic-status">STARTING</b></span><span>AI <b id="ai-status">READY</b></span><span>AUDIO <b id="audio-status">ON</b></span></div>
+      </aside>
+    </main>
+    <footer class="page-footer"><span>JARVIS PERSONAL ASSISTANT</span><span>LOCAL SESSION <b>●</b></span></footer>
+  </div>
+  <script src="{{ url_for('static', filename='dashboard.js') }}" defer></script>
+</body>
+</html>
